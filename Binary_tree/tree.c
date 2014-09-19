@@ -48,11 +48,12 @@ void printlevel(tree *tree, int level){
 	 * Base level(root) is 0, assuming that given any level, this function will print all
 	 * the elements present in that level
 	 */
-	if(level==0) printf("%d ", tree->val);
-	else{
+	if(level==0 && tree!=NULL) printf("%d ", tree->val);
+	else if(tree!=NULL){
 		printlevel(tree->left, level-1);
 		printlevel(tree->right, level-1);
 	}
+	else return;
 }
 
 void insert(tree **temp, tree *value){
@@ -100,7 +101,10 @@ int main(int argc, char **argv) {
 	insert(&newtree, newNode(5));
 	insert(&newtree, newNode(25));
 	insert(&newtree, newNode(53));
-	printlevel(newtree, 2);
+	insert(&newtree, newNode(56));
+	printlevel(newtree, 3);
+
+
 
 
 	/*
