@@ -81,10 +81,22 @@ void delete(){
 	 */
 }
 
-int search(){
+int search(tree *temp, int val){
 	/*
-	 * To be implemented
+	 * The search should be of order log(n) because if any element is actually present in the tree
+	 * then the time to taken to reach it is dependent on the height of the tree
+	 * which is 2^h + 1 = n (h = height of tree, n = number of elements in tree)
+	 * h*log(2) = log(n-1), h = log(n-1)/log(2), that's why the search is order log(n)
 	 */
+	if(temp!=NULL){
+		if(temp->val == val) return 1;
+		if(val>temp->val){
+			search(temp->right, val);
+		}
+		else{
+			search(temp->left, val);
+		}
+	}
 }
 
 
@@ -104,7 +116,11 @@ int main(int argc, char **argv) {
 	insert(&newtree, newNode(56));
 	printlevel(newtree, 3);
 
-
+	while(1){
+		int temp;
+		scanf("%d", &temp);
+		printf("\nresult %d\n", search(newtree, temp));
+	}
 
 
 	/*
