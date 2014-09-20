@@ -6,8 +6,42 @@ struct list{
 	int *next;
 };
 
-typedef struct list linked;
+typedef struct list list;
+
+list *newNode(int val){
+	list *temp;
+	temp = (list *)malloc(sizeof(list));
+	temp->val = val;
+	return temp;
+}
+
+void insert(list **node, list *value){
+	if(*node==NULL){
+		*node = value;
+		(*node)->next = NULL;
+	}
+	else{
+		insert(&(*node)->next, value);
+	}
+}
+
+void printlist(list *node){
+	if(node!=NULL) {
+		printf("%d ", node->val);
+		printlist(node->next);
+	}
+}
 
 int main(int argc, char **argv) {
-	//Started
+	list *head = NULL;
+
+	while(1){
+		//Testing
+		//Insertion and printlist working completely fine
+		int temp;
+		scanf("%d", &temp);
+		insert(&head, newNode(temp));
+		printlist(head);
+		printf("\n");
+	}
 }
