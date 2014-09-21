@@ -32,16 +32,28 @@ void printlist(list *node){
 	}
 }
 
+int search(list *node, int val){
+	if(node!=NULL){
+		if(node->val==val) return 1;
+		else search(node->next, val);
+	}
+}
+
+
 int main(int argc, char **argv) {
 	list *head = NULL;
 
 	while(1){
 		//Testing
 		//Insertion and printlist working completely fine
+		//Search Working Completely Fine
 		int temp;
 		scanf("%d", &temp);
 		insert(&head, newNode(temp));
 		printlist(head);
+		int see;
+		scanf("%d", &see);
+		printf("%d\n", search(head, see));
 		printf("\n");
 	}
 }

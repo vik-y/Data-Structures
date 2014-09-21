@@ -15,6 +15,7 @@
 struct tree{
 	//Val contains the value stored in a node and left and right are the left and right branches
 	int val;
+	struct tree *parent;
 	struct tree *left;
 	struct tree *right;
 };
@@ -33,14 +34,17 @@ tree * newNode(int value){
 	temp->right = NULL;
 }
 
+
+//------------Ways to print elements in a binary tree -- starts here
+
 void printout(tree * tree) {
 	/*
 	 * A function to printout all the elements of the tree, the order in which it
 	 * prints doesn't make much sense, can be used to check insertion and deletion
 	 */
-   if(tree->left) printout(tree->left);
-   printf("%d\n",tree->val);
-   if(tree->right) printout(tree->right);
+	if(tree->left) printout(tree->left);
+	printf("%d\n",tree->val);
+	if(tree->right) printout(tree->right);
 }
 
 void printlevel(tree *tree, int level){
@@ -56,6 +60,18 @@ void printlevel(tree *tree, int level){
 	else return;
 }
 
+void print_preorder(tree *tree){
+	//
+}
+
+void print_postorder(tree *tree){
+	//
+}
+
+//---------------Different ways to print tree elements, ends here----------------
+
+
+
 void insert(tree **temp, tree *value){
 	//pass the pointer to the structure
 	if(*temp == NULL){
@@ -66,7 +82,7 @@ void insert(tree **temp, tree *value){
 	}
 
 	else if(value->val > (*temp)->val){
-		printf("inserting on right\n");
+		//printf("inserting on right\n");
 		insert(&(*temp)->right, value);
 	}
 	else if(value->val <= (*temp)->val){
@@ -74,12 +90,63 @@ void insert(tree **temp, tree *value){
 	}
 }
 
+//----------Delete Starts here ----------------
 
-void delete(){
+void delete(tree **temp){
 	/*
 	 * To be implemented
 	 */
+	tree *leftchild = (*temp)->left;
+	tree *rightchild = (*temp)->right;
+	printf("till here\n");
+	if(temp!=NULL){
+		if(rightchild!=NULL){
+			*temp = rightchild;
+			printf("till here 1\n");
+			tree * templeft = (*temp)->left;
+			(*temp)->left = leftchild;
+			printf("calling insert\n");
+			//if(templeft!= NULL) insert(&(*temp), templeft);
+		}
+		else if(leftchild!=NULL){
+			*temp = leftchild;
+			tree * tempright = (*temp)->right;
+			(*temp)->right = rightchild;
+			if(tempright!= NULL) insert(&(*temp), tempright);
+		}
+		else{
+			printf("assigning null\n");
+			*temp = NULL;
+
+		}
+	}
 }
+
+int search_delete(tree *temp, int val){
+	/*
+	 * The search should be of order log(n) because if any element is actually present in the tree
+	 * then the time to taken to reach it is dependent on the height of the tree
+	 * which is 2^h + 1 = n (h = height of tree, n = number of elements in tree)
+	 * h*log(2) = log(n-1), h = log(n-1)/log(2), that's why the search is order log(n)
+	 */
+	if(temp!=NULL){
+		if(temp->val == val) {
+			printf("Calling delete function\n");
+			delete(&temp);
+			return 1;
+		}
+		if(val>temp->val){
+			printf("val greater\n");
+			search_delete(temp->right, val);
+		}
+		else{
+			printf("val lesser\n");
+			search_delete(temp->left, val);
+		}
+	}
+}
+
+//------------------Delete functions end here -------------------------
 
 int search(tree *temp, int val){
 	/*
@@ -100,12 +167,15 @@ int search(tree *temp, int val){
 }
 
 
+
+
+
+
 int main(int argc, char **argv) {
 	tree *newtree;
 	newtree = (tree *)malloc(sizeof(tree));
 	newtree->val = 20;
 
-	//Testing print level function
 	insert(&newtree, newNode(50));
 	insert(&newtree, newNode(10));
 
@@ -119,7 +189,9 @@ int main(int argc, char **argv) {
 	while(1){
 		int temp;
 		scanf("%d", &temp);
-		printf("\nresult %d\n", search(newtree, temp));
+		//Testing Delete feature
+		search_delete(newtree, temp);
+		printlevel(newtree, 3);
 	}
 
 
