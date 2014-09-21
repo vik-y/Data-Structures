@@ -39,11 +39,21 @@ int search(list *node, int val){
 	}
 }
 
+void delete(list **node, int val){
+	if(*node!=NULL){
+		if((*node)->val==val){
+			*node = (*node)->next;
+			return;
+		}
+		else delete(&(*node)->next, val);
+	}
+}
+
 
 int main(int argc, char **argv) {
 	list *head = NULL;
-
-	while(1){
+	int count = 5;
+	while(count >0){
 		//Testing
 		//Insertion and printlist working completely fine
 		//Search Working Completely Fine
@@ -51,9 +61,19 @@ int main(int argc, char **argv) {
 		scanf("%d", &temp);
 		insert(&head, newNode(temp));
 		printlist(head);
-		int see;
-		scanf("%d", &see);
-		printf("%d\n", search(head, see));
 		printf("\n");
+		count --;
+	}
+
+	count = 5;
+	while(count>0){
+		int temp;
+		scanf("%d", &temp);
+		printlist(head);
+		printf("\n");
+		delete(&head, temp);
+		printlist(head);
+		printf("\n");
+		count --;
 	}
 }
