@@ -61,11 +61,11 @@ void printlevel(tree *tree, int level){
 }
 
 void print_preorder(tree *tree){
-	//
+	//Preorder traversal of a tree
 }
 
 void print_postorder(tree *tree){
-	//
+	//Post order traversal of a trees
 }
 
 //---------------Different ways to print tree elements, ends here----------------
@@ -124,10 +124,7 @@ void delete(tree **temp){
 
 int search_delete(tree *temp, int val){
 	/*
-	 * The search should be of order log(n) because if any element is actually present in the tree
-	 * then the time to taken to reach it is dependent on the height of the tree
-	 * which is 2^h + 1 = n (h = height of tree, n = number of elements in tree)
-	 * h*log(2) = log(n-1), h = log(n-1)/log(2), that's why the search is order log(n)
+	 * Search Delete function is not working
 	 */
 	if(temp!=NULL){
 		if(temp->val == val) {
@@ -148,6 +145,8 @@ int search_delete(tree *temp, int val){
 
 //------------------Delete functions end here -------------------------
 
+
+//-----------------Search Function starts here ------------------------
 int search(tree *temp, int val){
 	/*
 	 * The search should be of order log(n) because if any element is actually present in the tree
@@ -165,11 +164,10 @@ int search(tree *temp, int val){
 		}
 	}
 }
+//-----------------Search Function ends here ----------------------
 
 
-
-
-
+//----------------Main function starts here -----------------------
 
 int main(int argc, char **argv) {
 	tree *newtree;
@@ -193,7 +191,6 @@ int main(int argc, char **argv) {
 		search_delete(newtree, temp);
 		printlevel(newtree, 3);
 	}
-
 
 	/*
 	 * All features and a working version of this to be implemented
