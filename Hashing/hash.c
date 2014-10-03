@@ -12,6 +12,7 @@
  * In this code I'll create a structure which you can use exactly like array
  * And then for hashing purpose will make a linked list in each of the indexes
  * Update ->> Delete to be implemented along with freeing the memory space
+ * 		  ->> Add Search
  */
 
 //Make sure to free the memory
@@ -60,6 +61,39 @@ void insert(int val, arr **ip,int index){
 	}
 }
 
+int search_recursion(arr *temp, int value){
+	/*
+	 * Search the hash using recursion
+	 */
+	if(temp!=NULL){
+		if(temp->value == value) return 1;
+		else if(temp->value > value) return 0;
+		else search_recursion(temp->next, value);
+	}
+	else return 0;
+}
+
+int search(arr *pointer, int index, int value){
+	//Search the hash without recursion
+	if((pointer+index)==NULL){
+		return 0;
+	}
+	else{
+		if(pointer->value == value) return 1;
+		else if(pointer->value > value) return 0;
+		else{
+			arr *temp;
+			temp = (pointer+index)->next;
+			while(temp->next!=NULL){
+				if(temp->value == value) return 1;
+				else if(temp->value > value) return 0;
+				temp = temp->next;
+			}
+			return 0;
+		}
+	}
+}
+
 int main(int argc, char **argv) {
 	arr *ip;
 	int length;
@@ -76,7 +110,7 @@ int main(int argc, char **argv) {
 	 */
 
 
-	for(i=0;i<500;i++){
+	for(i=0;i<5000;i+=50){
 		printf("%d\n", i);
 		int index;
 		index =i%length;
@@ -86,7 +120,11 @@ int main(int argc, char **argv) {
 	/*
 	 * Insertion and chaining working well
 	 */
-	printf("\n %d", ip->next->value);
-
+	printf("\n %d\n", ip->next->value);
+	while(1){
+		int see;
+		scanf("%d", &see);
+		printf("%d\n", search_recursion(ip+(see%length), see));
+	}
 }
 
