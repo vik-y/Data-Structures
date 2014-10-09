@@ -9,6 +9,7 @@
  * A binary tree.
  * Till now it contains insertion and some functions to print trees level by level
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,6 +33,7 @@ tree * newNode(int value){
 	temp->val = value;
 	temp->left = NULL;
 	temp->right = NULL;
+	return temp;
 }
 
 
@@ -60,6 +62,19 @@ void printlevel(tree *tree, int level){
 	else return;
 }
 
+void printtree(tree *temp){
+	//A function to test if the state of tree
+	printlevel(temp, 0);
+	printf("\n");
+	printlevel(temp, 1);
+	printf("\n");
+	printlevel(temp, 2);
+	printf("\n");
+	printlevel(temp, 3);
+	printf("\n");
+	printlevel(temp, 4);
+}
+
 void print_preorder(tree *tree){
 	//Preorder traversal of a tree
 }
@@ -74,7 +89,7 @@ void print_postorder(tree *tree){
 
 void insert(tree **temp, tree *value){
 	//pass the pointer to the structure
-	if(*temp == NULL){
+	if(*temp == NULL && value!=NULL){
 		*temp = value;
 		(*temp)->left = NULL;
 		(*temp)->right = NULL;
@@ -92,55 +107,43 @@ void insert(tree **temp, tree *value){
 
 //----------Delete Starts here ----------------
 
-void delete(tree **temp){
-	/*
-	 * To be implemented
-	 */
-	tree *leftchild = (*temp)->left;
-	tree *rightchild = (*temp)->right;
-	printf("till here\n");
-	if(temp!=NULL){
-		if(rightchild!=NULL){
-			*temp = rightchild;
-			printf("till here 1\n");
-			tree * templeft = (*temp)->left;
-			(*temp)->left = leftchild;
-			printf("calling insert\n");
-			//if(templeft!= NULL) insert(&(*temp), templeft);
-		}
-		else if(leftchild!=NULL){
-			*temp = leftchild;
-			tree * tempright = (*temp)->right;
-			(*temp)->right = rightchild;
-			if(tempright!= NULL) insert(&(*temp), tempright);
-		}
-		else{
-			printf("assigning null\n");
-			*temp = NULL;
-
-		}
-	}
+tree * get_min_value(tree *temp){
+	tree *newtemp = temp;
+	while(newtemp->left!=NULL) newtemp =  newtemp->left;
+	return newtemp;
 }
 
-int search_delete(tree *temp, int val){
+int search_delete(tree **temp, int value){
 	/*
-	 * Search Delete function is not working
+	 * Searches if the "value" exists, delete it if it exists
 	 */
-	if(temp!=NULL){
-		if(temp->val == val) {
-			printf("Calling delete function\n");
-			delete(&temp);
-			return 1;
+	if(*temp!=NULL){
+			if((*temp)->val == value){
+				//Storing the left and right node because the node is going to be deleted and these
+				//values will be lost
+				tree *leftchild = (*temp)->left;
+				tree *rightchild = (*temp)->right;
+
+				//As the tree will have to be rotated we are going to see where the leftnode has to be inserted
+				//because we are going to replace the null node with rightnode
+				tree * tempmin = get_min_value(*temp);
+				if(rightchild!=NULL){
+					free(*temp); //Deallocating memory from the node which is being deleted
+					*temp = rightchild;
+					tempmin->left = leftchild;
+					printf("Done assigning\n");
+				}
+				else *temp = leftchild;
+
+				return 1;
+			}
+			else if(value > (*temp)->val){
+				search_delete(&(*temp)->right, value);
+			}
+			else{
+				search_delete(&(*temp)->left, value);
+			}
 		}
-		if(val>temp->val){
-			printf("val greater\n");
-			search_delete(temp->right, val);
-		}
-		else{
-			printf("val lesser\n");
-			search_delete(temp->left, val);
-		}
-	}
 }
 
 //------------------Delete functions end here -------------------------
@@ -163,6 +166,7 @@ int search(tree *temp, int val){
 			search(temp->left, val);
 		}
 	}
+	return 0 ;
 }
 //-----------------Search Function ends here ----------------------
 
@@ -174,6 +178,7 @@ int main(int argc, char **argv) {
 	newtree = (tree *)malloc(sizeof(tree));
 	newtree->val = 20;
 
+
 	insert(&newtree, newNode(50));
 	insert(&newtree, newNode(10));
 
@@ -182,21 +187,23 @@ int main(int argc, char **argv) {
 	insert(&newtree, newNode(25));
 	insert(&newtree, newNode(53));
 	insert(&newtree, newNode(56));
-	printlevel(newtree, 3);
+	insert(&newtree, newNode(100));
 
-	while(1){
-		int temp;
-		scanf("%d", &temp);
-		//Testing Delete feature
-		search_delete(newtree, temp);
-		printlevel(newtree, 3);
-	}
+	printlevel(newtree, 3);
+	printf("\n");
+	printtree(newtree);
+
+
+	search_delete(&newtree, 50);
+	printf("\n");
+	printtree(newtree)	;
+
+
+	//Delete to be implemented
+	//Free memory when you delete or replace a node
 
 	/*
 	 * All features and a working version of this to be implemented
 	 */
 	return 0;
 }
-
-
-
