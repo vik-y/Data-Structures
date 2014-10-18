@@ -1,3 +1,8 @@
+/*
+ * Reference - github.com/vik-y/Data-Structures/linked_list
+ * Currently supports only integer insertions, non-integer insertions not supported
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,8 +14,8 @@ struct node{
 
 struct root{
     //the next null node is given by the length;
-    //eg if lengt = 0 is the 0th node is null so the list is empty 
-    int * r[1000];
+    //eg if lengt = 0 is the 0th node is null so the list is empty
+    struct node * address[1000];
     int length;
     struct node *list;
 };
@@ -22,25 +27,64 @@ node * newNode(int value){
     node * temp;
     temp = (node *)malloc(sizeof(node));
     temp->value = value;
+    temp->next = NULL;
     return temp;
 }
 
-void insert(root n, node * val){
-    no
+void insert(root *n, node * val){
+  //printf("\nCalling\n");
+    if(n->length==0) {
+      n->list = val;
+      //printf("add 1 %d\n", n->list->value);
+      n->address[0] = val;
+      n->length+=1;
+    }
+
+    else{
+      //Pick address on length -1 position and insert into its next node
+        node * temp = n->address[n->length-1];
+        //printf("Previous Value %d\n", temp->value);
+        temp->next = val;
+
+        n->address[n->length] = val;
+        n->length+=1;
+        //temp->next = val;
+    }
 }
 
-void insert(list **node, list *value){
-  if(*node==NULL){
-    *node = value;
-    (*node)->next = NULL;
-  }
-  else{
-    insert(&(*node)->next, value);
-  }
+int printindex(root n, int index){
+    if(index>=n.length){
+        printf("Invalid Index");
+        return -1;
+    }
+    else{
+        node * temp = n.address[index];
+        return temp->value;
+    }
 }
+
+
+
 
 int main(){
     root newlist;
-    newlist->length = 0;
-    insert(newlist, newNode(10));
+    //root is a structure which is the root of a linked list, all the lists will be of the type root
+    //You can generate multiple lists just like you do in pyton, just use  "root <listname>"
+    newlist.length = 0;
+    //You must initialize the initial length to be zero whcih means that list doesn't have anything
+
+
+    insert(&newlist, newNode(10));
+    //Insert function takes two arguments
+    //Arg1 - address of the list to which you want to add this value
+    //Arg2 - the value which you want to insert into the list
+    //its just like listname.append(value) in python 
+
+    insert(&newlist, newNode(100));
+
+    printf("%d\n", printindex(newlist, 0));
+    printf("%d\n", printindex(newlist, 1));
+    printf("%d\n", printindex(newlist, 2));
+    //printf("%d\n", newlist.list->value);
+    //printindex(newlist,0);
 }
