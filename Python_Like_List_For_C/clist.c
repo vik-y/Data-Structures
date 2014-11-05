@@ -52,6 +52,24 @@ void insert(root *n, node * val){
     }
 }
 
+int find(root list, int n){
+    /*
+     * Since the list is not organized, the search would be order n
+     * returns 1 if the element you were looking for was found
+     * returns 0 if it was not found
+     */
+     int i;
+     for(i=0;i<list.length; i++){
+        if(list.address[i]->value == n) return 1;
+     }
+     return 0;
+}
+
+int delete(root list, int index){
+    /*
+     */
+}
+
 int printindex(root n, int index){
     if(index>=n.length){
         printf("Invalid Index");
@@ -78,13 +96,21 @@ int main(){
     //Insert function takes two arguments
     //Arg1 - address of the list to which you want to add this value
     //Arg2 - the value which you want to insert into the list
-    //its just like listname.append(value) in python 
+    //its just like listname.append(value) in python
 
     insert(&newlist, newNode(100));
+    insert(&newlist, newNode(1000));
+    insert(&newlist, newNode(1500));
 
-    printf("%d\n", printindex(newlist, 0));
-    printf("%d\n", printindex(newlist, 1));
-    printf("%d\n", printindex(newlist, 2));
+
+    while(1){
+        int s;
+        scanf("%d", &s);
+        printf("%d\n", find(newlist, s));
+    }
+    //printf("%d\n", printindex(newlist, 0));
+    //printf("%d\n", printindex(newlist, 1));
+    //printf("%d\n", printindex(newlist, 2));
     //printf("%d\n", newlist.list->value);
     //printindex(newlist,0);
 }
