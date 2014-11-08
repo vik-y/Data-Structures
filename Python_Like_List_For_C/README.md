@@ -54,5 +54,31 @@ As we can see, each pointer takes up memory of 8bytes irrespective of the elemen
 www.github.com/vik-y/Data-Structures/linked_list<br>
 http://stackoverflow.com/questions/20763616/how-many-bytes-do-pointers-take-up
 
- #Usage:
- --Will Update Soon----
+###Usage:
+Include the clist.h file along with other relevant libraries, e.g.
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include "clist.h"
+```
+Compile Using this command
+```
+gcc clist.c include.c -o clist
+```
+
+Modify the main function in the file main.c as per your requirements.<br>
+
+<b>Functions</b>
+<ol>
+<li>Defining a new list
+```
+root newlist; //Here root is the structure name and newlist is the name of the newlist which you are forming
+```</li>
+<li>Inserting into the list
+```
+insert(&newlist, 100); //Here 100 is the value which you want to insert and &newlist is the address of the newlist which you defined in 1
+```
+</li>
+<li>Delete Will Update </li>
+</ol>
+
