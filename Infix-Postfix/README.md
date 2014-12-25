@@ -1,6 +1,6 @@
 #Infix to Post conversion
 
-Can be used to calculate complex nested locations:<br>
+Can be used to calculate complex nested calculations:<br>
 e.g. ((3*7)-(4+8)/5*10) <br>
 
 First this program converts the given notation into postfix form and then calculathe result<br>
