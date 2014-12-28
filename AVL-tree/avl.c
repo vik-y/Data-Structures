@@ -202,8 +202,6 @@ void save(struct node * root, FILE * f){
 	//Write to a file using this function;
 	if(root != NULL)
 		{
-			printf("Save func %d ", root->val);
-			printf("\nSaving to file %d\n", root->val);
 			fprintf(f, "%d\n", root->val);
 			save(root->left, f);
 			save(root->right, f);
@@ -253,24 +251,6 @@ int main(int argc, char **argv)
 	struct node *root = NULL;
 	struct node * test;
 
-
-	/* Constructing tree given in the above figure */
-	/*root = insert(root, 10);
-	root = insert(root, 20);
-	root = insert(root, 30);
-	root = insert(root, 40);
-	root = insert(root, 50);
-	root = insert(root, 25);
-	root = insert(root, 1);
-	root = insert(root, 15);*/
-
-	/* The constructed AVL Tree would be
-            30
-           /  \
-         20   40
-        /  \     \
-       10  25    50
-	 */
     root = read_from_file(root, argv[1]);
 	printf("Pre order traversal of the constructed AVL tree is \n");
 	preOrder(root);
@@ -286,6 +266,7 @@ int main(int argc, char **argv)
 			f = fopen(argv[1], "w");
 			save(root, f);
 			fclose(f);
+			printf("Saved your dataset to a file, Exiting\n");
 			break;
 		}
 		else{
