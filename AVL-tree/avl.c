@@ -13,8 +13,10 @@
  */
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 //AN AVL Tree Node
+
 struct node
 {
 	int val;
@@ -28,6 +30,18 @@ int max(int a, int b)
 	return (a > b)? a : b;
 }
 
+
+
+void printInline(struct node *N){
+	if(N==NULL)
+		return;
+	else
+	{
+		printf("%d ", N->val);
+		printInline(N->left);
+		printInline(N->right);
+	}
+}
 
 int height(struct node *N)
 {
@@ -131,6 +145,7 @@ struct node* insert(struct node* node, int val)
 
 	if (val < node->val)
 		node->left  = insert(node->left, val);
+	else if(val==node->val) return node;
 	else
 		node->right = insert(node->right, val);
 
@@ -183,6 +198,18 @@ void preOrder(struct node *root)
 	}
 }
 
+void save(struct node * root, FILE * f){
+	//Write to a file using this function;
+	if(root != NULL)
+		{
+			printf("Save func %d ", root->val);
+			printf("\nSaving to file %d\n", root->val);
+			fprintf(f, "%d\n", root->val);
+			save(root->left, f);
+			save(root->right, f);
+		}
+}
+
 
 void printheight(struct node *y){
 	//Prints height of each node in PreOrder sequencce
@@ -193,22 +220,49 @@ void printheight(struct node *y){
 		printheight(y->left);
 		printheight(y->right);
 	}
-
 }
+
+
+struct node * read_from_file(struct node * root, char x[100]){
+	FILE * fh;
+	fh = fopen(x, "r");
+	int str;
+	struct node * temp;
+	temp = root;
+
+	//check if file exists
+	if (fh == NULL){
+	    printf("file does not exists %s", x);
+	    return 0;
+	}
+	if (fh) {
+	    while (fscanf(fh, "%d", &str)!=EOF)
+	        {
+				root = insert(root, str);
+				printf("%d\n", str);
+	        }
+	    fclose(fh);
+	}
+	return root;
+}
+
 /* Drier program to test above function*/
-int main()
+int main(int argc, char **argv)
 {
+	char filename[100];
 	struct node *root = NULL;
+	struct node * test;
+
 
 	/* Constructing tree given in the above figure */
-	root = insert(root, 10);
+	/*root = insert(root, 10);
 	root = insert(root, 20);
 	root = insert(root, 30);
 	root = insert(root, 40);
 	root = insert(root, 50);
 	root = insert(root, 25);
 	root = insert(root, 1);
-	root = insert(root, 15);
+	root = insert(root, 15);*/
 
 	/* The constructed AVL Tree would be
             30
@@ -217,10 +271,32 @@ int main()
         /  \     \
        10  25    50
 	 */
-
+    root = read_from_file(root, argv[1]);
 	printf("Pre order traversal of the constructed AVL tree is \n");
 	preOrder(root);
 	printf("\n");
-	printheight(root);
+
+	while(1){
+		int input;
+		printf("For a new entry: Type 1, else to Save changes and exit the program type 2 \n");
+		scanf("%d", &input);
+		if(input==2){
+			//write the saving code here
+			FILE *f;
+			f = fopen(argv[1], "w");
+			save(root, f);
+			fclose(f);
+			break;
+		}
+		else{
+			int temp;
+			printf("Enter the number which you want to Enter in the AVL Tree: ");
+			scanf("%d", &temp);
+			root = insert(root, temp);
+			printf("Entry Successful, here's the tree for you \n");
+			preOrder(root);
+		}
+	}
+
 	return 0;
 }
