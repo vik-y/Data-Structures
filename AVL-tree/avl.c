@@ -1,10 +1,11 @@
 /*
  * AVL Tree
- * By Vikas Yadav
  * Reference: AVL Tree Geeks for Geeks
  * NOTE: Most of the code segment was taken from geeksforgeeks as the code quality was superb
  */
 
+//Delete function yet to be added and made functional
+//Add support for values to be added and stored on a file if the application is closed to increase the lifecycle of the datastructure
 
 /*
  * Assumptions made in the following code -
