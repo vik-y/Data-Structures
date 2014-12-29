@@ -9,7 +9,7 @@ I am using a linked list for this. I am converting linked list insertion from O(
 Every new list which you make, takes up some memory but that is much less memory than what an array of same size will take, and from there on, memory will be allocated dynamically.
 <br>
 Run this Code on Your Machine to see how much memory does a pointer take on your system, these value change depending on your system architecutre. 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -34,7 +34,7 @@ int main(){
 }
 ```
 Output
-```
+```sh
 4 bytes per integer
 8 bytes per integer pointer
 8 bytes per long int
@@ -56,29 +56,32 @@ http://stackoverflow.com/questions/20763616/how-many-bytes-do-pointers-take-up
 
 ###Usage:
 Include the clist.h file along with other relevant libraries, e.g.
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include "clist.h"
 ```
 Compile Using this command
-```
+```sh
 gcc clist.c include.c -o clist
 ```
 
 Modify the main function in the file main.c as per your requirements.<br>
 
 <b>Functions</b>
-<ol>
-<li>Defining a new list
-```
+
+Defining a new list
+
+```c
 root newlist; //Here root is the structure name and newlist is the name of the newlist which you are forming
-```</li>
-<li>Inserting into the list
 ```
+
+Inserting into the list
+
+```c
 insert(&newlist, 100); //Here 100 is the value which you want to insert and &newlist is the address of the newlist which you defined in 1
 ```
-</li>
-<li>Delete Will Update </li>
-</ol>
+
+Delete Will Update Soon
+
 
