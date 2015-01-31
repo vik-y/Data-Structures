@@ -8,6 +8,7 @@ To learn all major Data structures and code them using C. Also observe benchmark
 <ol>
 Data Strucutres Completed till now
 <li>Binary Tree</li>
+<li>AVL Tree </li>
 <li>Linked List</li>
 <li>Hash (Using Linked List)</li>
 </ol>
