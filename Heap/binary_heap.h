@@ -13,4 +13,9 @@ public:
 	int getRight(int i);
 	int get(int i);
 	void set(int i, int val);
+	int del(int val);
+	int delMax();
+	void heapify(int index);
+	void delRecursive(int index);
+	int findElement(int val);
 };
