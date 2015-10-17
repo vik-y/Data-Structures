@@ -1,49 +1,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct list{
+struct lnode{
 	/*
 	 * Each node of a linked list will contain the value and the address of the next node
 	 */
 	int val;
-	int *next;
+	struct lnode *next;
 };
 
-typedef struct list list;
+typedef struct lnode lnode;
 
-list *newNode(int val){
+lnode *newNode(int val){
 	//A helper function to allocate memory whenever needed
 	//Returns the pointer to which memory is allocated 
-	list *temp;
-	temp = (list *)malloc(sizeof(list));
+	lnode *temp;
+	temp = (lnode *)malloc(sizeof(lnode));
 	temp->val = val;
 	return temp;
 }
 
-void insert(list **node, list *value){
-	/*
-	 * I have used extra extra pointer "**node" just to clear to concent of pointers
-	 * Same thing can be done with single pointer also "*node" but you have to make a temporary pointer
-	 * This is a recursive insertion method - you can also use a while loop to do the same thing. 
-	 */
+void insert_recursive(lnode **node, int value){
+	// Working
 	if(*node==NULL){
-		*node = value;
+		*node = newNode(value);
 		(*node)->next = NULL;
 	}
 	else{
-		insert(&(*node)->next, value);
+		insert_recursive(&(*node)->next, value);
 	}
 }
 
-void printlist(list *node){
+lnode * insert_linear(lnode *node, int value){
+	lnode *t = node;
+	if(node==NULL){
+		node = newNode(value);
+		printf("Inserted %d\n", node->val);
+		return node;
+	}
+	while(node->next!=NULL){
+		node=node->next;
+	}
+	node->next = newNode(value);
+	return t;
+}
+
+void printlist(lnode *node){
 	/*A helper function to print all the nodes in the given linked list*/
 	if(node!=NULL) {
 		printf("%d ", node->val);
 		printlist(node->next);
 	}
+	else
+		printf("NULL");
 }
 
-int search(list *node, int val){
+int search(lnode *node, int val){
 	//A helper function to search for a value in the given linked_list
 	if(node!=NULL){
 		if(node->val==val) return 1;
@@ -51,11 +63,15 @@ int search(list *node, int val){
 	}
 }
 
-void delete(list **node, int val){
+void delete(lnode **node, int val){
+	// Can be done linearly also
 	if(*node!=NULL){
 		if((*node)->val==val){
+			lnode *temp;
+			temp = *node;
 			*node = (*node)->next;
-			//Deallocate memory here.
+			free(temp);
+			// Memory deallocation done
 			return;
 		}
 		else delete(&(*node)->next, val);
@@ -64,7 +80,7 @@ void delete(list **node, int val){
 
 
 int main(int argc, char **argv) {
-	list *head = NULL; 
+	lnode *head = NULL;
 	int count = 5;
 	while(count >0){
 		//Testing
@@ -72,7 +88,7 @@ int main(int argc, char **argv) {
 		//Search Working Completely Fine
 		int temp;
 		scanf("%d", &temp);
-		insert(&head, newNode(temp));
+		head = insert_linear(head, temp);
 		printlist(head);
 		printf("\n");
 		count --;
