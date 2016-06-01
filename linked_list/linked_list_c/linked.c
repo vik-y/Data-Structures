@@ -78,6 +78,18 @@ void delete(lnode **node, int val){
 	}
 }
 
+lnode * reverse_recursive(lnode *current, lnode *prev){
+	lnode * rnode = current; // Creating a temporary node 
+	if(current->next!=NULL){
+		rnode = reverse_recursive(current->next, current);
+		// Take the next node of current node and set current node as 
+		// previous node for next node of current node. 
+		// E.g If we have 5->1 then current node is 5 and next node is 1
+		// calling reverse_recursive on it will do this: 5<-1 
+	}
+	current->next = prev; 
+	return rnode;
+}
 
 int main(int argc, char **argv) {
 	lnode *head = NULL;
@@ -94,7 +106,7 @@ int main(int argc, char **argv) {
 		count --;
 	}
 
-	count = 5;
+	/*count = 5;
 	while(count>0){
 		int temp;
 		scanf("%d", &temp);
@@ -104,5 +116,9 @@ int main(int argc, char **argv) {
 		printlist(head);
 		printf("\n");
 		count --;
-	}
+	}*/
+	
+	head = reverse_recursive(head, NULL);
+	printf("Printing Reversed List \n");
+	printlist(head);
 }
